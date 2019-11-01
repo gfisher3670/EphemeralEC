@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<!-- saved from url=(0097)https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/ -->
+<html lang="en" class="js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" async="" src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/recaptcha__en.js"></script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+		<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden</title>
+
+<!-- Async WordPress.com Remote Login -->
+
+<link rel="dns-prefetch" href="https://s2.wp.com/">
+<link rel="dns-prefetch" href="https://s1.wp.com/">
+<link rel="dns-prefetch" href="https://neilmadden.wordpress.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://widgets.wp.com/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link href="https://fonts.gstatic.com/" crossorigin="" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="Neil Madden » Feed" href="https://neilmadden.blog/feed/">
+<link rel="alternate" type="application/rss+xml" title="Neil Madden » Comments Feed" href="https://neilmadden.blog/comments/feed/">
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s2.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1572020829h&ver=5.3-beta2-46381"}};
+			!function(e,a,t){var r,n,o,i,p=a.createElement("canvas"),s=p.getContext&&p.getContext("2d");function c(e,t){var a=String.fromCharCode;s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,e),0,0);var r=p.toDataURL();return s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,t),0,0),r===p.toDataURL()}function l(e){if(!s||!s.fillText)return!1;switch(s.textBaseline="top",s.font="600 32px Arial",e){case"flag":return!c([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])&&(!c([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!c([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]));case"emoji":return!c([55357,56424,55356,57342,8205,55358,56605,8205,55357,56424,55356,57340],[55357,56424,55356,57342,8203,55358,56605,8203,55357,56424,55356,57340])}return!1}function d(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(i=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},o=0;o<i.length;o++)t.supports[i[o]]=l(i[o]),t.supports.everything=t.supports.everything&&t.supports[i[o]],"flag"!==i[o]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[i[o]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(r=t.source||{}).concatemoji?d(r.concatemoji):r.wpemoji&&r.twemoji&&(d(r.twemoji),d(r.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/wp-emoji-release.min.js" type="text/javascript" defer=""></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel="stylesheet" id="all-css-0-1" href="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/saved_resource(1)" type="text/css" media="all">
+<link rel="stylesheet" id="wpcom-block-editor-styles-css" href="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/common.min.css" media="all">
+<link rel="stylesheet" id="twentysixteen-fonts-css" href="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/css" media="all">
+<link rel="stylesheet" id="all-css-4-1" href="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/saved_resource(2)" type="text/css" media="all">
+<!--[if lt IE 10]>
+<link rel='stylesheet' id='twentysixteen-ie-css'  href='https://s2.wp.com/wp-content/themes/pub/twentysixteen/css/ie.css?m=1448353951h&#038;ver=20160816' media='all' />
+<![endif]-->
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentysixteen-ie8-css'  href='https://s2.wp.com/wp-content/themes/pub/twentysixteen/css/ie8.css?m=1493067000h&#038;ver=20160816' media='all' />
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='twentysixteen-ie7-css'  href='https://s2.wp.com/wp-content/themes/pub/twentysixteen/css/ie7.css?m=1448353951h&#038;ver=20160816' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="all-css-10-1" href="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/saved_resource(3)" type="text/css" media="all">
+<script>
+var related_posts_js_options = {"post_heading":"h4"};
+</script>
+<script type="text/javascript" src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/saved_resource(4)"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://neilmadden.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Stateless Session Logout in OpenAM 13" href="https://neilmadden.blog/2016/02/25/stateless-session-logout-in-openam-13/">
+<link rel="next" title="Bloom Filter session logout – some numbers" href="https://neilmadden.blog/2016/06/06/bloom-filter-session-logout-some-numbers/">
+<meta name="generator" content="WordPress.com">
+<link rel="canonical" href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/">
+<link rel="shortlink" href="https://wp.me/pfKLP-AB">
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fneilmadden.blog%2F2016%2F05%2F20%2Fephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java%2F&amp;for=wpcom-auto-discovery"><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fneilmadden.blog%2F2016%2F05%2F20%2Fephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java%2F&amp;for=wpcom-auto-discovery">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ephemeral elliptic curve Diffie-Hellman key agreement in Java">
+<meta property="og:url" content="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/">
+<meta property="og:description" content="If you like this post, you might like my book: API Security in Action (use discount code fccmadden to get 37% off when ordering). Update 2 (17th May, 2017): I’ve written some notes on correct…">
+<meta property="article:published_time" content="2016-05-20T09:57:07+00:00">
+<meta property="article:modified_time" content="2019-06-21T12:52:44+00:00">
+<meta property="og:site_name" content="Neil Madden">
+<meta property="og:image" content="https://neilmadden.files.wordpress.com/2016/05/elliptic-curve.jpg">
+<meta property="og:image:width" content="826">
+<meta property="og:image:height" content="533">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:creator" content="@neilmaddog">
+<meta name="twitter:site" content="@neilmaddog">
+<meta name="twitter:text:title" content="Ephemeral elliptic curve Diffie-Hellman key agreement in Java">
+<meta name="twitter:card" content="summary">
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom">
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48">
+<link rel="icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48">
+<link rel="apple-touch-icon-precomposed" href="https://s2.wp.com/i/webclip.png">
+<link rel="openid.server" href="https://neilmadden.blog/?openidserver=1">
+<link rel="openid.delegate" href="https://neilmadden.blog/">
+<link rel="search" type="application/opensearchdescription+xml" href="https://neilmadden.blog/osd.xml" title="Neil Madden">
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com">
+<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Neil Madden"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-tooltip" content="Security, AI and Software Engineering: a blog by Neil Madden"><meta name="msapplication-task" content="name=Subscribe;action-uri=https://neilmadden.blog/feed/;icon-uri=https://s1.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico"><meta name="description" content="If you like this post, you might like my book: API Security in Action (use discount code fccmadden to get 37% off when ordering). Update 2 (17th May, 2017): I&#39;ve written some notes on correctly validating ECDH public keys. Update (20th April, 2017): I&#39;ve noticed that this article gets by far the most daily hits…">
+<style type="text/css"></style></head>
+
+<body class="post-template-default single single-post postid-2269 single-format-standard wp-embed-responsive customizer-styles-applied highlander-enabled highlander-light">
+<div id="page" class="site">
+	<div class="site-inner">
+		<a class="skip-link screen-reader-text" href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/#content">Skip to content</a>
+
+		<header id="masthead" class="site-header" role="banner">
+			<div class="site-header-main">
+				<div class="site-branding">
+					
+											<p class="site-title"><a href="https://neilmadden.blog/" rel="home">Neil Madden</a></p>
+												<p class="site-description">Security, AI and Software Engineering: a blog by Neil Madden</p>
+									</div><!-- .site-branding -->
+
+							</div><!-- .site-header-main -->
+
+											<div class="header-image">
+					<a href="https://neilmadden.blog/" rel="home">
+						<img src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/cropped-cropped-dsc00394.jpg" srcset="" sizes="" width="1200" height="280" alt="Neil Madden">
+					</a>
+				</div><!-- .header-image -->
+					</header><!-- .site-header -->
+
+		<div id="content" class="site-content">
+
+<div id="primary" class="content-area">
+	<main id="main" class="site-main" role="main">
+		
+<article id="post-2269" class="post-2269 post type-post status-publish format-standard hentry category-computing category-security tag-cryptography tag-diffie-hellman tag-elliptic-curve tag-java tag-key-agreement">
+	<header class="entry-header">
+		<h1 class="entry-title">Ephemeral elliptic curve Diffie-Hellman key agreement in&nbsp;Java</h1>	</header><!-- .entry-header -->
+
+	
+	
+	<div class="entry-content">
+		<p>If you like this post, you might like my book: <a href="https://www.manning.com/books/api-security-in-action">API Security in Action</a> (use discount code <strong>fccmadden</strong> to get 37% off when ordering).</p>
+<p><strong>Update 2 (17th May, 2017): </strong>I’ve written some notes on <a href="https://neilmadden.wordpress.com/2017/05/17/so-how-do-you-validate-nist-ecdh-public-keys/">correctly validating ECDH public keys</a>.</p>
+<p><strong>Update (20th April, 2017):</strong> I’ve noticed that this article gets by far the most daily hits on my blog. This worries me that people are using this code as a template for building real ECDHE key agreement, when it was only intended as a guide to the Java API. There are a&nbsp;<em>lot</em> of details in safe construction of such a protocol. More secure alternatives than to trying to roll this yourself include the various complete protocols listed at the end of the article.&nbsp;With that said, we’ll get back to the original article:</p>
+<p><a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange">Diffie-Hellman key agreement</a>&nbsp;(DH) is a way for two parties to agree on a symmetric secret key without explicitly communicating that secret key. As such, it provides a way for the parties to negotiate a shared <a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> cipher key or <a href="https://en.wikipedia.org/wiki/Hash-based_message_authentication_code">HMAC</a> shared secret over a potentially insecure channel. It does not by itself provide authentication, however, so it is vulnerable to man-in-the-middle attacks without additional measures. There are several ways to provide these additional measures (e.g. signing the ephemeral public keys using a CA-issued certificate, or using a protocol like&nbsp;<a href="https://en.wikipedia.org/wiki/Off-the-Record_Messaging">OTR</a>), but we will not discuss them here, or go into the details of how the key agreement&nbsp;works. Java provides support out-of-the-box for both original discrete log DH&nbsp;and elliptic curve (<a href="https://en.wikipedia.org/wiki/Elliptic_curve_Diffie%E2%80%93Hellman">ECDH</a>) key agreement protocols, although the latter may not be supported on all JREs. ECDH should be preferred for any new applications as it provides significantly improved security for reasonable key sizes.</p>
+<figure data-shortcode="caption" id="attachment_2361" aria-describedby="caption-attachment-2361" style="width: 826px" class="wp-caption alignnone"><img data-attachment-id="2361" data-permalink="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/elliptic-curve/" data-orig-file="https://neilmadden.files.wordpress.com/2016/05/elliptic-curve.jpg" data-orig-size="826,533" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="elliptic curve" data-image-description="" data-medium-file="https://neilmadden.files.wordpress.com/2016/05/elliptic-curve.jpg?w=300" data-large-file="https://neilmadden.files.wordpress.com/2016/05/elliptic-curve.jpg?w=826" class="alignnone size-full wp-image-2361" src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/elliptic-curve.jpg" alt="elliptic curve" srcset="https://neilmadden.files.wordpress.com/2016/05/elliptic-curve.jpg 826w, https://neilmadden.files.wordpress.com/2016/05/elliptic-curve.jpg?w=150 150w, https://neilmadden.files.wordpress.com/2016/05/elliptic-curve.jpg?w=300 300w, https://neilmadden.files.wordpress.com/2016/05/elliptic-curve.jpg?w=768 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px"><figcaption id="caption-attachment-2361" class="wp-caption-text">An elliptic curve defined by y<sup>2</sup> = x<sup>3</sup> – 2x + 2</figcaption></figure>
+<p>As is often the case in Java, the use of these classes can be a bit convoluted. Here we demonstrate simple Java code&nbsp;for ECDH key agreement on the command line. We only demonstrate&nbsp;<em>ephemeral</em> key agreement, in which the two parties generate unique public/private key pairs at the start of the protocol and throw them away once the shared secret has been negotiated. This can form the basis for <a href="https://en.wikipedia.org/wiki/Forward_secrecy">perfect forward secrecy</a>.</p>
+<p><strong>WARNING:</strong> the code here is not a complete security protocol and should be used for reference on the Java API only.</p>
+<p><span id="more-2269"></span></p>
+<h2>The Code</h2>
+<p>The complete code example is as follows:</p>
+<pre>import java.security.*;
+import java.security.spec.ECParameterSpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.security.interfaces.ECPublicKey;
+
+import javax.crypto.KeyAgreement;
+
+import java.util.*;
+import java.nio.ByteBuffer;
+import java.io.Console;
+
+import static javax.xml.bind.DatatypeConverter.printHexBinary;
+import static javax.xml.bind.DatatypeConverter.parseHexBinary;
+
+public class ecdh {
+
+  public static void main(String[] args) throws Exception {
+    Console console = System.console();
+    // Generate ephemeral ECDH keypair
+    KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC");
+    kpg.initialize(256);
+    KeyPair kp = kpg.generateKeyPair();
+    byte[] ourPk = kp.getPublic().getEncoded();
+
+    // Display our public key
+    console.printf("Public Key: %s%n", printHexBinary(ourPk));
+
+    // Read other's public key:
+    byte[] otherPk = parseHexBinary(console.readLine("Other PK: "));
+
+    KeyFactory kf = KeyFactory.getInstance("EC");
+    X509EncodedKeySpec pkSpec = new X509EncodedKeySpec(otherPk);
+    PublicKey otherPublicKey = kf.generatePublic(pkSpec);
+
+    // Perform key agreement
+    KeyAgreement ka = KeyAgreement.getInstance("ECDH");
+    ka.init(kp.getPrivate());
+    ka.doPhase(otherPublicKey, true);
+
+    // Read shared secret
+    byte[] sharedSecret = ka.generateSecret();
+    console.printf("Shared secret: %s%n", printHexBinary(sharedSecret));
+
+    // Derive a key from the shared secret and both public keys
+    MessageDigest hash = MessageDigest.getInstance("SHA-256");
+    hash.update(sharedSecret);
+    // Simple deterministic ordering
+    List&lt;ByteBuffer&gt; keys = Arrays.asList(ByteBuffer.wrap(ourPk), ByteBuffer.wrap(otherPk));
+    Collections.sort(keys);
+    hash.update(keys.get(0));
+    hash.update(keys.get(1));
+
+    byte[] derivedKey = hash.digest();
+    console.printf("Final key: %s%n", printHexBinary(derivedKey));
+  }
+}</pre>
+<p>To use the example, compile it and then run two instances of it (possibly on different computers). It will print out a hex-encoded ephemeral public key value and then wait for the public key from the other instance. Simply copy+paste this values from one to the other (and vice-versa) and then it will print out the computed shared secret, again hex-encoded and finally a secret key derived from the shared secret.</p>
+<p>Let’s walk through the example step-by-step. Firstly, we import a vast number of different classes. We’ll discuss what all of these are for when we get to them.</p>
+<h2>Step 1: Generate ephemeral ECDH key pair</h2>
+<p>The first step is to generate an ephemeral elliptic curve key pair for use in the algorithm. We do this using the aptly-named <a href="https://docs.oracle.com/javase/7/docs/api/java/security/KeyPairGenerator.html">KeyPairGenerator</a>&nbsp;using the “EC” algorithm name to select Elliptic Curve key generation:</p>
+<pre>    // Generate ephemeral ECDH keypair
+    KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC");
+    kpg.initialize(256);
+    KeyPair kp = kpg.generateKeyPair();
+    byte[] ourPk = kp.getPublic().getEncoded();</pre>
+<p><span style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;background-color:#ffffff;">By setting the key size to 256-bits, Java will select the NIST P-256 curve parameters (secp256r1). For other key sizes, it will choose other NIST standard curves, e.g. P-384, P-521. If you wish to use different parameters, then you must specify them explicitly using the </span><a style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;" href="https://docs.oracle.com/javase/7/docs/api/java/security/spec/ECGenParameterSpec.html">ECGenParameterSpec</a><span style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;background-color:#ffffff;"> argument.&nbsp;</span></p>
+<h2>Step 2: Exchange&nbsp;the public keys</h2>
+<p>The next step is to send our public key to the other party and to receive their public key. In this case, we achieve this by simply printing them out and requiring a human being to perform the communication.&nbsp;<strong>No authentication is performed.</strong> This means that we cannot be sure that the public key we received is really from the other party and not from a man-in-the-middle.</p>
+<pre>    // Display our public key
+    console.printf("Public Key: %s%n", printHexBinary(ourPk));
+
+    // Read other's public key:
+    byte[] otherPk = parseHexBinary(console.readLine("Other PK: "));
+
+    KeyFactory kf = KeyFactory.getInstance("EC");
+    X509EncodedKeySpec pkSpec = new X509EncodedKeySpec(otherPk);
+    PublicKey otherPublicKey = kf.generatePublic(pkSpec);</pre>
+<p><span style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;background-color:#ffffff;">We assume that the other party is also using a NIST P-256 curve public key. We also assume that the output of PublicKey.getEncoded() is an X.509-encoded key. This turns out to be true in the Oracle JRE, but I cannot find any documented guarantee of this behaviour. A more robust approach would be to communicate the </span><a style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;" href="https://docs.oracle.com/javase/7/docs/api/java/security/spec/ECPoint.html">ECPoint</a><span style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;background-color:#ffffff;">&nbsp;and&nbsp;</span><a style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;" href="https://docs.oracle.com/javase/7/docs/api/java/security/spec/ECParameterSpec.html">ECParameterSpec</a><span style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;background-color:#ffffff;">&nbsp;of the public key, and use an </span><a style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;" href="https://docs.oracle.com/javase/7/docs/api/java/security/spec/ECPublicKeySpec.html">ECPublicKeySpec</a><span style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;background-color:#ffffff;"> to reconstruct the key, but that is even more work.</span></p>
+<h2>Step 3: Perform key agreement</h2>
+<p>The actual ECDH key agreement is straightforward once we have exchanged public keys.</p>
+<pre>    // Perform key agreement
+    KeyAgreement ka = KeyAgreement.getInstance("ECDH");
+    ka.init(kp.getPrivate());
+    ka.doPhase(otherPublicKey, true);</pre>
+<p><span style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;background-color:#ffffff;">We grab an instance of the ECDH key agreement protocol. The first step is to initialise it with our private key. Then we pass it the other party’s public key via the doPhase() method. We pass&nbsp;</span><em style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;">true</em><span style="font-family:Merriweather, Georgia, &#39;Times New Roman&#39;, Times, serif;background-color:#ffffff;"> as the second argument to indicate that this is the last phase of the agreement (it is the only phase in ECDH). Diffie-Hellman works by calculating a shared secret based on our private key and the other party’s public key, so this is all we need in this case. The magic of DH is that each party will calculate the same value despite having different sets of keys available to them. Nobody listening in on the exchange can calculate the shared secret unless they have access to one of the private keys (which are never communicated).</span></p>
+<h2>Step 4: Extract the shared secret and derive keys</h2>
+<p>The final step&nbsp;is to extract the shared secret and then derive a key from it.</p>
+<p>Note that it is not advisable to use the shared secret directly as a symmetric key for various reasons. In particular, while the derived secret is indistinguishable from a randomly selected element from the set of all possible outputs of the elliptic curve group, this is not the same thing as a uniformly random string of bits. Viewed as a string of bits, it will have some structure to it. Put another way, the P-256 curve provides roughly equivalent security to a 128-bit secret key, yet the output shared secret is 256 bits. This reveals that the shared secret does not really provide 256 bits of “random” key data. There are further reasons for not using the shared secret directly, depending on the usage. For instance, the security considerations section of <a href="https://www.rfc-editor.org/rfc/rfc7748.txt">RFC 7748</a>&nbsp;advises to derive a key from the shared secret plus both public keys if we intend to use the key for authentication (this RFC uses different curves than we use here, but it is good advice regardless):</p>
+<blockquote><p>Designers using these curves should be aware that for each public<br>
+key, there are several publicly computable public keys that are<br>
+equivalent to it, i.e., they produce the same shared secrets. Thus<br>
+using a public key as an identifier and knowledge of a shared secret<br>
+as proof of ownership (without including the public keys in the key<br>
+derivation) might lead to subtle vulnerabilities.</p></blockquote>
+<p>We adopt&nbsp;the approach described in the <a href="https://download.libsodium.org/doc/advanced/scalar_multiplication.html">libsodium documentation</a>, of deriving a key by hashing the shared secret and both public keys, but using SHA-256 rather than BLAKE2. These choices of algorithms and curves are purely for convenience because they are readily available on the JVM without 3rd party libraries (e.g. Bouncy Castle). The only trickiness is to ensure that we feed the public keys into the hash in the same order on both sides of the agreement protocol. For simplicity, we do this by just sorting them lexicographically.</p>
+<pre>    // Read shared secret
+    byte[] sharedSecret = ka.generateSecret();
+    console.printf("Shared secret: %s%n", printHexBinary(sharedSecret));
+
+    // Derive a key from the shared secret and both public keys
+    MessageDigest hash = MessageDigest.getInstance("SHA-256");
+    hash.update(sharedSecret);
+    // Simple deterministic ordering
+    List&lt;ByteBuffer&gt; keys = Arrays.asList(ByteBuffer.wrap(ourPk), ByteBuffer.wrap(otherPk));
+    Collections.sort(keys);
+    hash.update(keys.get(0));
+    hash.update(keys.get(1));
+
+    byte[] derivedKey = hash.digest();
+    console.printf("Final key: %s%n", printHexBinary(derivedKey));</pre>
+<p>Et voila! Both parties now have the same derived key, which can be used for an AES cipher or HMAC key or however you wish. A more sophisticated key derivation function, such as <a href="https://tools.ietf.org/html/rfc5869">HKDF</a>, can be used to derive further keys (for instance, separate keys sending data in each direction, which is recommended).</p>
+<p>There are a number of complete protocols that build upon this basic agreement mechanism, adding authentication and other details:</p>
+<ul>
+<li>TLS includes this as the various ECDHE_ cipher suites, such as ECDHE_ECDSA_WITH_AES256_GCM_SHA384 (in TLS 1.2 or earlier, <a href="https://tlswg.github.io/tls13-spec/#cipher-suites">TLS 1.3 cipher suites</a> only specify the symmetric encryption component, with key agreement and authentication being negotiated via extensions instead), which means ephemeral ECDH where the exchanged ephemeral public keys are signed using long-term <a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm">ECDSA</a> keys to provide authentication, and then using the derived secret as a 256-bit key for AES-GCM authenticated encryption. TLS 1.3 mandates cipher suites that support forward-secrecy, including ECDHE.&nbsp;It also has some optimisations to reduce the overhead of the TLS ECDHE handshake, including support for “0-RTT” (zero round-trip time) that allows a client that has previously talked to a server to start a new session and send encrypted traffic on the very first message.</li>
+<li>Protocols like <a href="https://noiseprotocol.org/">Noise</a> or <a href="http://curvecp.org/">CurveCP</a>&nbsp;(or <a href="http://curvezmq.org/">CurveZMQ</a>).</li>
+<li>The <a href="https://tools.ietf.org/html/rfc7518#section-4.6">JSON Web Token (JWT) specs</a> describe a ECDH-ES (ephemeral-static) key agreement and key derivation approach. In this case the recipient has a long-term (static) public key and the sender uses an ephemeral key-pair. This allows the recipient to immediately send a message, without an interactive handshake (i.e., the recipient can be offline, as in email), and it also authenticates the recipient if the long-term public key can be trusted (e.g. via a CA signature, web of trust, etc). However, it gives up forward secrecy, as any compromise of the recipient’s long-term private key will allow decryption of all previous messages sent to that recipient under that key pair. It should be possible to build something like TLS’s 0-RTT mechanism on top of this, but I don’t know of a fully worked out design&nbsp;(and I wouldn’t attempt it unless you know what you are doing).</li>
+</ul>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-email share-service-visible"><a rel="nofollow noopener noreferrer" data-shared="" class="share-email sd-button share-icon no-text" href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/?share=email&amp;nb=1" target="_blank" title="Click to email this to a friend"><span></span><span class="sharing-screen-reader-text">Click to email this to a friend (Opens in new window)</span></a></li><li class="share-print"><a rel="nofollow noopener noreferrer" data-shared="" class="share-print sd-button share-icon no-text" href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/#print" target="_blank" title="Click to print"><span></span><span class="sharing-screen-reader-text">Click to print (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-2269" class="share-facebook sd-button share-icon no-text" href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/?share=facebook&amp;nb=1" target="_blank" title="Click to share on Facebook"><span></span><span class="sharing-screen-reader-text">Click to share on Facebook (Opens in new window)</span></a></li><li class="share-reddit"><a rel="nofollow noopener noreferrer" data-shared="" class="share-reddit sd-button share-icon no-text" href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/?share=reddit&amp;nb=1" target="_blank" title="Click to share on Reddit"><span></span><span class="sharing-screen-reader-text">Click to share on Reddit (Opens in new window)</span></a></li><li class="share-linkedin"><a rel="nofollow noopener noreferrer" data-shared="sharing-linkedin-2269" class="share-linkedin sd-button share-icon no-text" href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/?share=linkedin&amp;nb=1" target="_blank" title="Click to share on LinkedIn"><span></span><span class="sharing-screen-reader-text">Click to share on LinkedIn (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-loaded" id="like-post-wrapper-3754709-2269-5dbb69e6baf0c" data-src="//widgets.wp.com/likes/index.html?ver=20190321#blog_id=3754709&amp;post_id=2269&amp;origin=neilmadden.wordpress.com&amp;obj_id=3754709-2269-5dbb69e6baf0c&amp;domain=neilmadden.blog" data-name="like-post-frame-3754709-2269-5dbb69e6baf0c"><h3 class="sd-title">Like this:</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px; display: none;"><span class="button"><span>Like</span></span> <span class="loading">Loading...</span></div><iframe class="post-likes-widget jetpack-likes-widget" name="like-post-frame-3754709-2269-5dbb69e6baf0c" height="55px" width="100%" frameborder="0" src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/index.html"></iframe><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts" style="display: block;">
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+<div class="jp-relatedposts-items jp-relatedposts-items-minimal"><p class="jp-relatedposts-post jp-relatedposts-post0" data-post-id="3155" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://neilmadden.blog/2017/05/17/so-how-do-you-validate-nist-ecdh-public-keys/" title="So how *do* you validate (NIST) ECDH public keys?
+
+Updated 20th July 2017 to clarify notation for the point of infinity. A previous version used the symbol 0 (zero) rather than O, which may have been confusing.  In the wake of the recent critical security vulnerabilities in some JOSE/JWT libraries around ECDH public key validation, a number of implementations scrambled…" data-origin="2269" data-position="0">So how *do* you validate (NIST) ECDH public keys?</a></span><span class="jp-relatedposts-post-context">In "cryptography"</span></p><p class="jp-relatedposts-post jp-relatedposts-post1" data-post-id="3346" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://neilmadden.blog/2018/11/26/public-key-authenticated-encryption-and-why-you-want-it-part-ii/" title="Public key authenticated encryption and why you want it (Part II)
+
+In Part I, I made the argument that even when using public key cryptography you almost always want authenticated encryption. In this second part, we&#39;ll look at how you can actually achieve public key authenticated encryption (PKAE) from commonly available building blocks. We will concentrate only on approaches that do…" data-origin="2269" data-position="1">Public key authenticated encryption and why you want it (Part II)</a></span><span class="jp-relatedposts-post-context">In "cryptography"</span></p><p class="jp-relatedposts-post jp-relatedposts-post2" data-post-id="3351" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://neilmadden.blog/2018/12/14/public-key-authenticated-encryption-and-why-you-want-it-part-iii/" title="Public key authenticated encryption and why you want it (Part III)
+
+In Part I, we saw that authenticated encryption is usually the security goal you want in both the symmetric and public key settings. In Part II, we then looked at some ways of achieving public key authenticated encryption (PKAE), and discovered that it is not straightforward to build from separate…" data-origin="2269" data-position="2">Public key authenticated encryption and why you want it (Part III)</a></span><span class="jp-relatedposts-post-context">In "General"</span></p></div></div></div>
+<div class="author-info">
+	<div class="author-avatar">
+			</div><!-- .author-avatar -->
+
+	<div class="author-description">
+		<h2 class="author-title"><span class="author-heading">Author:</span> Neil Madden</h2>
+
+		<p class="author-bio">
+			Security Director at ForgeRock. Experienced software engineer with a PhD in computer science. Interested in application security, applied cryptography, logic programming and intelligent agents.			<a class="author-link" href="https://neilmadden.blog/author/neilmadden/" rel="author">
+				View all posts by Neil Madden			</a>
+		</p><!-- .author-bio -->
+	</div><!-- .author-description -->
+</div><!-- .author-info -->
+	</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<span class="byline"><span class="author vcard"><span class="screen-reader-text">Author </span> <a class="url fn n" href="https://neilmadden.blog/author/neilmadden/">Neil Madden</a></span></span><span class="posted-on"><span class="screen-reader-text">Posted on </span><a href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/" rel="bookmark"><time class="entry-date published" datetime="2016-05-20T10:57:07+01:00">20 May, 2016</time><time class="updated" datetime="2019-06-21T13:52:44+01:00">21 June, 2019</time></a></span><span class="cat-links"><span class="screen-reader-text">Categories </span><a href="https://neilmadden.blog/category/computing/" rel="category tag">Computing</a>, <a href="https://neilmadden.blog/category/computing/security/" rel="category tag">Security</a></span><span class="tags-links"><span class="screen-reader-text">Tags </span><a href="https://neilmadden.blog/tag/cryptography/" rel="tag">cryptography</a>, <a href="https://neilmadden.blog/tag/diffie-hellman/" rel="tag">diffie-hellman</a>, <a href="https://neilmadden.blog/tag/elliptic-curve/" rel="tag">elliptic curve</a>, <a href="https://neilmadden.blog/tag/java/" rel="tag">Java</a>, <a href="https://neilmadden.blog/tag/key-agreement/" rel="tag">key agreement</a></span>			</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+	<nav class="navigation post-navigation" role="navigation" aria-label="Posts">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://neilmadden.blog/2016/02/25/stateless-session-logout-in-openam-13/" rel="prev"><span class="meta-nav" aria-hidden="true">Previous</span> <span class="screen-reader-text">Previous post:</span> <span class="post-title">Stateless Session Logout in OpenAM&nbsp;13</span></a></div><div class="nav-next"><a href="https://neilmadden.blog/2016/06/06/bloom-filter-session-logout-some-numbers/" rel="next"><span class="meta-nav" aria-hidden="true">Next</span> <span class="screen-reader-text">Next post:</span> <span class="post-title">Bloom Filter session logout – some&nbsp;numbers</span></a></div></div>
+	</nav>
+	</main><!-- .site-main -->
+
+	
+</div><!-- .content-area -->
+
+
+	<aside id="secondary" class="sidebar widget-area" role="complementary">
+		<section id="media_image-8" class="widget widget_media_image"><h2 class="widget-title">API Security in Action</h2><style>.widget.widget_media_image { overflow: hidden; }.widget.widget_media_image img { height: auto; max-width: 100%; }</style><figure style="width: 239px" class="wp-caption alignnone"><a href="https://www.manning.com/books/api-security-in-action?a_aid=api_security_in_action&amp;a_bid=6806e3b6"><img width="239" height="300" src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/madden-api-meap-hi.png-2.jpeg" class="image wp-image-3405  attachment-239x300 size-239x300" alt="API Security in Action book cover" style="max-width: 100%; height: auto;" title="API Security in Action" srcset="https://neilmadden.files.wordpress.com/2019/06/madden-api-meap-hi.png-2.jpeg?w=239 239w, https://neilmadden.files.wordpress.com/2019/06/madden-api-meap-hi.png-2.jpeg?w=478 478w, https://neilmadden.files.wordpress.com/2019/06/madden-api-meap-hi.png-2.jpeg?w=120 120w" sizes="(max-width: 239px) 85vw, 239px" data-attachment-id="3405" data-permalink="https://neilmadden.blog/about/madden-api-meap-hi-png-2/" data-orig-file="https://neilmadden.files.wordpress.com/2019/06/madden-api-meap-hi.png-2.jpeg" data-orig-size="720,903" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Madden-API-MEAP-HI.png-2" data-image-description="" data-medium-file="https://neilmadden.files.wordpress.com/2019/06/madden-api-meap-hi.png-2.jpeg?w=239" data-large-file="https://neilmadden.files.wordpress.com/2019/06/madden-api-meap-hi.png-2.jpeg?w=720"></a><figcaption class="wp-caption-text">Use discount code fccmadden to get 37% off API Security in Action when ordering.</figcaption></figure></section>		<section id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widget-title">Recent Posts</h2>		<ul>
+											<li>
+					<a href="https://neilmadden.blog/2019/08/19/re-evaluating-searles-arguments-against-machine-consciousness/">Re-evaluating Searle’s arguments against machine&nbsp;consciousness</a>
+									</li>
+											<li>
+					<a href="https://neilmadden.blog/2019/06/13/api-security-in-action-now-in-early-access/">API Security in Action now in early&nbsp;access</a>
+									</li>
+											<li>
+					<a href="https://neilmadden.blog/2019/02/24/why-you-really-can-parse-html-and-anything-else-with-regular-expressions/">Why you really can parse HTML (and anything else) with regular&nbsp;expressions</a>
+									</li>
+											<li>
+					<a href="https://neilmadden.blog/2019/01/16/can-you-ever-safely-include-credentials-in-a-url/">Can you ever (safely) include credentials in a&nbsp;URL?</a>
+									</li>
+											<li>
+					<a href="https://neilmadden.blog/2018/12/16/simplifying-jose/">Simplifying JOSE</a>
+									</li>
+					</ul>
+		</section><section id="recent-comments-4" class="widget widget_recent_comments"><h2 class="widget-title">Recent Comments</h2>				<table class="recentcommentsavatar" cellspacing="0" cellpadding="0" border="0">
+					<tbody><tr><td title="Neil Madden" class="recentcommentsavatartop" style="height:48px; width:48px;"><a href="https://neilmadden.wordpress.com/" rel="nofollow"></a></td><td class="recentcommentstexttop" style=""><a href="https://neilmadden.wordpress.com/" rel="nofollow">Neil Madden</a> on <a href="https://neilmadden.blog/2018/12/14/public-key-authenticated-encryption-and-why-you-want-it-part-iii/#comment-163">Public key authenticated encry…</a></td></tr><tr><td title="Tangui Le Pense (@Tangui)" class="recentcommentsavatarend" style="height:48px; width:48px;"><a href="http://twitter.com/Tangui" rel="nofollow"></a></td><td class="recentcommentstextend" style=""><a href="http://twitter.com/Tangui" rel="nofollow">Tangui Le Pense (@Ta…</a> on <a href="https://neilmadden.blog/2018/12/14/public-key-authenticated-encryption-and-why-you-want-it-part-iii/#comment-162">Public key authenticated encry…</a></td></tr><tr><td title="Neil Madden" class="recentcommentsavatarend" style="height:48px; width:48px;"><a href="https://neilmadden.wordpress.com/" rel="nofollow"></a></td><td class="recentcommentstextend" style=""><a href="https://neilmadden.wordpress.com/" rel="nofollow">Neil Madden</a> on <a href="https://neilmadden.blog/2018/12/14/public-key-authenticated-encryption-and-why-you-want-it-part-iii/#comment-160">Public key authenticated encry…</a></td></tr><tr><td title="Tangui Le Pense (@Tangui)" class="recentcommentsavatarend" style="height:48px; width:48px;"><a href="http://twitter.com/Tangui" rel="nofollow"></a></td><td class="recentcommentstextend" style=""><a href="http://twitter.com/Tangui" rel="nofollow">Tangui Le Pense (@Ta…</a> on <a href="https://neilmadden.blog/2018/12/14/public-key-authenticated-encryption-and-why-you-want-it-part-iii/#comment-159">Public key authenticated encry…</a></td></tr><tr><td title="Neil Madden" class="recentcommentsavatarend" style="height:48px; width:48px;"><a href="https://neilmadden.wordpress.com/" rel="nofollow"></a></td><td class="recentcommentstextend" style=""><a href="https://neilmadden.wordpress.com/" rel="nofollow">Neil Madden</a> on <a href="https://neilmadden.blog/2018/08/30/moving-away-from-uuids/#comment-158">Moving away from&nbsp;UUIDs</a></td></tr>				</tbody></table>
+				</section>	</aside><!-- .sidebar .widget-area -->
+
+		</div><!-- .site-content -->
+
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			
+			
+			<div class="site-info">
+								<span class="site-title"><a href="https://neilmadden.blog/" rel="home">Neil Madden</a></span>
+								<a href="https://wordpress.com/?ref=footer_blog" rel="nofollow">Blog at WordPress.com.</a>
+			</div><!-- .site-info -->
+		</footer><!-- .site-footer -->
+	</div><!-- .site-inner -->
+</div><!-- .site -->
+
+<!--  -->
+	<div style="display:none">
+	</div>
+
+	<div id="carousel-reblog-box">
+		<form action="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post">
+				<input type="hidden" id="carousel-reblog-blog-id" value="3754709">
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://neilmadden.blog">
+				<input type="hidden" id="carousel-reblog-blog-title" value="Neil Madden">
+				<input type="hidden" id="carousel-reblog-post-url" value="">
+				<input type="hidden" id="carousel-reblog-post-title" value="">
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="fe12022e86"><input type="hidden" name="_wp_http_referer" value="/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/">		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/neilmadden.blog\/2016\/05\/20\/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java\/":2269};
+	</script>
+					
+<link rel="stylesheet" id="all-css-0-2" href="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/jetpack-carousel.css" type="text/css" media="all">
+<script>
+var screenReaderText = {"expand":"expand child menu","collapse":"collapse child menu"};
+</script>
+<script>
+var actionbardata = {"siteID":"3754709","siteName":"Neil Madden","siteURL":"https:\/\/neilmadden.blog","icon":"<img alt='' src='https:\/\/s2.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/twentysixteen","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fneilmadden.blog%2F2016%2F05%2F20%2Fephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java%2F&signup_flow=account&domain=neilmadden.blog","themeURL":"https:\/\/wordpress.com\/theme\/twentysixteen\/","xhrURL":"https:\/\/neilmadden.blog\/wp-admin\/admin-ajax.php","nonce":"344b9c0500","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"3e81bb26bb\" \/>","referer":"https:\/\/neilmadden.blog\/2016\/05\/20\/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java\/","canFollow":"1","feedID":"88230010","statusMessage":"","customizeLink":"https:\/\/neilmadden.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fneilmadden.wordpress.com%2F2016%2F05%2F20%2Fephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java%2F","postID":"2269","shortlink":"https:\/\/wp.me\/pfKLP-AB","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/neilmadden.blog\/2269","statsLink":"https:\/\/wordpress.com\/stats\/post\/2269\/neilmadden.blog","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Twenty Sixteen","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 318 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fneilmadden.blog%2F2016%2F05%2F20%2Fephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java%2F&signup_flow=account&domain=neilmadden.blog\">Log in now.<\/a>","stats":"Stats"}};
+</script>
+<script>
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/neilmadden.blog\/wp-admin\/admin-ajax.php","nonce":"2f55f431bc","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/neilmadden.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fneilmadden.blog%2F2016%2F05%2F20%2Fephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java%2F","blog_id":"3754709","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=3754709&v=wpcom&tz=1&user_id=0&subd=neilmadden","is_public":"1","reblog_enabled":""};
+</script>
+<script>
+var sharing_js_options = {"lang":"en","counts":"1","is_stats_active":"1"};
+</script>
+<script type="text/javascript" src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/saved_resource(5)"></script><div id="actionbar" class="actnbr-pub-twentysixteen actnbr-has-follow"><ul><li class="actnbr-btn actnbr-hidden"> 			    	<a class="actnbr-action actnbr-actn-follow" href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/"><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Follow</span></a> 			    	<div class="actnbr-popover tip tip-top-left actnbr-notice"> 			    		<div class="tip-arrow"></div> 			    		<div class="tip-inner actnbr-follow-bubble"></div> 			    	</div> 			    </li><li class="actnbr-ellipsis actnbr-hidden"> 			  <svg class="gridicon gridicon__ellipsis" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle></g></svg> 			  <div class="actnbr-popover tip tip-top-left actnbr-more"> 			  	<div class="tip-arrow"></div> 			  	<div class="tip-inner"> 				  <ul> 				    <li class="actnbr-sitename actnbr-hidden"><a href="https://neilmadden.blog/"><img alt="" src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/wpcom-gray-white.png" class="avatar avatar-50" height="50" width="50" scale="0"> Neil Madden</a></li> 				   	<li class="actnbr-folded-customize actnbr-hidden"><a href="https://neilmadden.wordpress.com/wp-admin/customize.php?url=https%3A%2F%2Fneilmadden.wordpress.com%2F2016%2F05%2F20%2Fephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java%2F"><svg class="gridicon gridicon__customize" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M2 6c0-1.505.78-3.08 2-4 0 .845.69 2 2 2 1.657 0 3 1.343 3 3 0 .386-.08.752-.212 1.09.74.594 1.476 1.19 2.19 1.81L8.9 11.98c-.62-.716-1.214-1.454-1.807-2.192C6.753 9.92 6.387 10 6 10c-2.21 0-4-1.79-4-4zm12.152 6.848l1.34-1.34c.607.304 1.283.492 2.008.492 2.485 0 4.5-2.015 4.5-4.5 0-.725-.188-1.4-.493-2.007L18 9l-2-2 3.507-3.507C18.9 3.188 18.225 3 17.5 3 15.015 3 13 5.015 13 7.5c0 .725.188 1.4.493 2.007L3 20l2 2 6.848-6.848c1.885 1.928 3.874 3.753 5.977 5.45l1.425 1.148 1.5-1.5-1.15-1.425c-1.695-2.103-3.52-4.092-5.448-5.977z" data-reactid=".2.1.1:0.1b.0"></path></g></svg><span>Customize<span></span></span></a></li> 				    <li class="actnbr-folded-follow actnbr-hidden"><a class="actnbr-action actnbr-actn-follow" href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/"><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Follow</span></a></li> 					<li class="actnbr-signup actnbr-hidden"><a href="https://wordpress.com/start/">Sign up</a></li> 				    <li class="actnbr-login actnbr-hidden"><a href="https://wordpress.com/log-in?redirect_to=https%3A%2F%2Fneilmadden.blog%2F2016%2F05%2F20%2Fephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java%2F&amp;signup_flow=account&amp;domain=neilmadden.blog">Log in</a></li> 				     				    <li class="actnbr-shortlink actnbr-hidden"><a href="https://wp.me/pfKLP-AB">Copy shortlink</a></li> 				    <li class="flb-report actnbr-hidden"><a href="http://en.wordpress.com/abuse/">Report this content</a></li> 				     				     				    <li class="actnbr-subs actnbr-hidden"><a href="https://subscribe.wordpress.com/">Manage subscriptions</a></li> 				    <li class="actnbr-fold actnbr-hidden"><a href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/">Collapse this bar</a></li> 			      </ul> 			    </div> 		      </div> 		    </li> 	      </ul></div>
+<script type="text/javascript">
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+</script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/master.html" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+		<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/w.js" type="text/javascript" async="" defer=""></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'3754709','blog_tz':'1','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'3754709','v':'wpcom','tz':'1','user_id':'0','post':'2269','subd':'neilmadden'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGNrd29+Smw0TDhnZmRTK0hlRi9QSGh6bi9GXVhBJWIlZlR5U1JMLU8/MkNtblkvY1dzK3YrWW0zdnc4U01tSmJHSXwlUC9udls5NFJicTR+QTNbQXNDdng9Z3VpdGJOX3xOTGxpLHMrRE1nUHp5ZWssciZBXVt8VWImUm5MNG51UzI9TXxLXTVSZkYrNS14X000XXBfZlc5bnBfMVQ/XyZQVTgmVy4rTWZsODEyOV1JPURqUGN4UExNK1FuZUpLdyZ3TVpNdmtsRlY4UjhSMkFjSz0lQlREWWpFTlIzP1t4WFN+NHMsQTgtUWlxWGQzdnh6Jnh8bDUlWGM9OWx5RzdNY1BtdnxrdDFBL35GcHU/Q34='}]);
+_stq.push([ 'clickTrackerInit', '3754709', '2269' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+
+<!--
+	generated in 0.134 seconds
+	62461 bytes batcached for 300 seconds
+-->
+<div id="sharing_email" style="display: none;">
+		<form action="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input type="email" name="target_email" id="target_email" value="">
+
+			
+				<label for="source_name">Your Name</label>
+				<input type="text" name="source_name" id="source_name" value="">
+
+				<label for="source_email">Your Email Address</label>
+				<input type="email" name="source_email" id="source_email" value="">
+
+						<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off" title="This field is for validation and should not be changed">
+			
+			<div class="g-recaptcha" data-sitekey="6LcmyE0UAAAAALID28yVNg7pFCodGaArJzHitez_" data-theme="light" data-type="image" data-tabindex="0"><div style="width: 304px; height: 78px;"><div><iframe src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/anchor.html" width="304" height="78" role="presentation" name="a-u7fqz1k8qqiu" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div></div>
+			<script type="text/javascript" src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/api.js" async=""></script>
+			
+			<img style="float: right; display: none" class="loading" src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/loading.gif" alt="loading" width="16" height="16" scale="0">
+			<input type="submit" value="Send Email" class="sharing_send">
+			<a rel="nofollow" href="https://neilmadden.blog/2016/05/20/ephemeral-elliptic-curve-diffie-hellman-key-agreement-in-java/#cancel" class="sharing_cancel" role="button">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div><img src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/g.gif" alt=":)" id="wpstats" scale="0"><div style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;"><div style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;"></div><div class="g-recaptcha-bubble-arrow" style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;"></div><div class="g-recaptcha-bubble-arrow" style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;"></div><div style="z-index: 2000000000; position: relative;"><iframe title="recaptcha challenge" src="./Ephemeral elliptic curve Diffie-Hellman key agreement in Java – Neil Madden_files/bframe.html" name="c-u7fqz1k8qqiu" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox" style="width: 100%; height: 100%;"></iframe></div></div></body></html>
